@@ -67,26 +67,32 @@ export default {
 	methods: {
 		handleSubmit () {
 			this.submitted = false
-			var account = JSON.parse(localStorage.getItem('account'))
-			if (this.username === account.username && this.password === account.password) {
-				console.log('login sucees')
+			console.log(this.username)
+			console.log(this.password)
+			if (localStorage.getItem('account') !== null) {
+				var account = JSON.parse(localStorage.getItem('account'))
+				if (this.username === account.username && this.password === account.password) {
+					this.$router.push('/profile')
+				} else {
+					alert('login fail')
+				}
 			} else {
 				axios.post('http://localhost:3000/getlogin', {
-				username : this.username,
-				password : this.password
-				}).then(res => {
-					console.log(res)
-					if ( res.data.data === "false") {
-						alert('login fail')
-					} else {
-						localStorage.setItem('account', JSON.stringify({
-							username: this.username,
-							password: this.password
-						}))
-					}
-				}).catch(err => {
-					console.log(err)
-				})
+					username : this.username,
+					password : this.password
+					}).then(res => {
+						if ( res.data.data === "false") {
+							alert('login fail')
+						} else {
+							localStorage.setItem('account', JSON.stringify({
+								username: this.username,
+								password: this.password
+							}))
+							this.$router.push('/profile')
+						}
+					}).catch(err => {
+						console.log(err)
+					})
 			}
 		}
 	}
