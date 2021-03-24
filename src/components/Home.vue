@@ -1,5 +1,7 @@
 <template>
     <div>
+        <router-link to="/" class="login">Home</router-link> --
+        <router-link to="/login" class="login">login</router-link>
         <Header :title="title" />
         <img alt="Vue logo" src="./../assets/logo.png" />
         <ListUser :email="email"/>
@@ -32,5 +34,7 @@ export default {
 </script>
 
 <style>
-
+.login {
+    font-size: 40px;
+}
 </style>

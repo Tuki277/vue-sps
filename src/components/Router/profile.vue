@@ -2,53 +2,44 @@
   <div>
     <h1>profile</h1>
     <div class="box">
-      <listProfile 
-        :key="acc.id"
-        v-for="acc in account"
-        :acc="acc"
-      />
+      <listProfile :key="acc.id" v-for="acc in account" :acc="acc" />
     </div>
   </div>
 </template>
 
 <script>
-
-import axios from 'axios'
-import listProfile from './listprofile'
+import axios from "axios";
+import listProfile from "./listprofile";
+import io from "socket.io-client";
 
 export default {
-  name: 'profile',
+  name: "profile",
   components: {
-    listProfile
+    listProfile,
   },
-  data () {
+  data() {
     return {
-      account : []
-    }
+      account: [],
+      socket: io("http://localhost:3003"),
+    };
   },
-  created () {
-    axios.get('http://localhost:3000/getall').then(res => {
-      console.log(res.data.data)
-      this.account = res.data.data
-    })
-  },
-  methods: {
-    showAccount () {
-      var result = null
-      if (this.accountRes > 0) {
-        this.accountRes.map((data, index) => {
-          console.log(data)
-          console.log(index)
-        })
-      }
-      return result
-    }
+  created() {
+    axios.get("http://localhost:3000/getall").then((res) => {
+      this.account = res.data.data;
+    }),
+    this.socket.on("data", (data) => {
+        if ( data.message === "success") {
+                axios.get("http://localhost:3000/getall").then((res) => {
+                this.account = res.data.data;
+            })
+        }
+    });
   }
 }
+
 </script>
 
 <style>
-
 h1 {
   padding-bottom: 30px;
 }

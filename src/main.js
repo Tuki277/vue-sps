@@ -3,7 +3,7 @@ import App from './App.vue'
 import { router } from './routes'
 import connect from 'socket.io-client'
 
-const socket = connect('http://localhost:3001')
+const socket = connect('http://localhost:3003')
 
 Vue.config.productionTip = false
 

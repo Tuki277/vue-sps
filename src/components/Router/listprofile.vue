@@ -11,11 +11,12 @@
 
 export default {
     props: [
-        'acc'
+        'acc',
     ]
 }
-</script>
 
+</script>
+ 
 <style>
 
 </style>
